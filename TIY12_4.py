@@ -1,12 +1,12 @@
 import sys
 import pygame
-from settings import Settings
-from ship import Ship
+from TIY12_4Settings import Settings
+from TIY12_4Ship import Ship
 
 
 # sys used to exit game, pygame for functionality, settings is for the settings of the game.
 
-class AlienInvasion:
+class TIY4:
     def __init__(self):
         pygame.init()  # initialize pygame
 
@@ -33,6 +33,10 @@ class AlienInvasion:
             self.ship.moving_right = True # basically sets a flag to let the ship know it must move right.
         elif event.key == pygame.K_LEFT: # check if event key is left arrow
             self.ship.moving_left = True # basically sets a flag to let the ship know it must move left.
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
         elif event.key == pygame.K_q: # checks if key pressed was q
             sys.exit() # exits the program
 
@@ -41,6 +45,10 @@ class AlienInvasion:
             self.ship.moving_right = False # if it is we stop moving right.
         elif event.key == pygame.K_LEFT: # checks if the key that was released is left arrow.
             self.ship.moving_left = False # if it is we stop moving left.
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)  # fills the background with the rgb color.
@@ -55,5 +63,5 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
-    ai = AlienInvasion()
+    ai = TIY4()
     ai.run_game()
