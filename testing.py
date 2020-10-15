@@ -2,7 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
-
+from bullet import Bullet
 
 # sys used to exit game, pygame for functionality, settings is for the settings of the game.
 
@@ -18,6 +18,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")  # sets window title.
 
         self.ship = Ship(self)  # creating ship object
+        self.bullets = pygame.sprite.Group() # creating a group of bullet sprites.
 
     def _check_events(self): # single leading underscores definte helper methods
         for event in pygame.event.get():  # getting a event invoked from pygame or the user.
@@ -35,6 +36,8 @@ class AlienInvasion:
             self.ship.moving_left = True # basically sets a flag to let the ship know it must move left.
         elif event.key == pygame.K_q: # checks if key pressed was q
             sys.exit() # exits the program
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event): # keyup event helper.
         if event.key == pygame.K_RIGHT: # checks if the key that was released is right arrow.
@@ -42,15 +45,30 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT: # checks if the key that was released is left arrow.
             self.ship.moving_left = False # if it is we stop moving left.
 
+    def _fire_bullet(self):
+        if len(self.bullets) < self.settings.bullets_allowed: # checks bullets on screen and if there are less than the number of bullets allowed in settings, they fire a bullet.
+            new_bullet = Bullet(self) # creating bullet object.
+            self.bullets.add(new_bullet) # adding this new bullet to the group.
+
+    def _update_bullets(self): # updating bullets helper method
+        self.bullets.update() # updating bullets
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        # goes through a copy of the sprite list, and removes any bullet below and at y cord 0 from the sprite list.
+
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)  # fills the background with the rgb color.
         self.ship.blitme()  # drawing ship to screen.
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet() # goes through each bullet in the group of sprites and draws them to the screen.
         pygame.display.flip()  # makes most recent drawn screen visible.
 
     def run_game(self):
         while True:  # always running
             self._check_events() # runs the check events method... which checks events by the user.
-            self.ship.update()
+            self.ship.update() # updating ship
+            self._update_bullets() # updating bullets
             self._update_screen() # runs the updating screen, which draws objects to the screen and backgrounds and such.
 
 
