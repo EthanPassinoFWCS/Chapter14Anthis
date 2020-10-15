@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 # sys used to exit game, pygame for functionality, settings is for the settings of the game.
 
@@ -19,6 +20,37 @@ class AlienInvasion:
 
         self.ship = Ship(self)  # creating ship object
         self.bullets = pygame.sprite.Group() # creating a group of bullet sprites.
+        self.aliens = pygame.sprite.Group() # creating a group of alien sprites.
+
+        self._create_fleet() # creating the fleet.
+
+
+    def _create_fleet(self):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+
+        # Getting number of aliens per row.
+        available_space_x = self.settings.screen_width - (2 * alien_width) # gets space available by removing two aliens (the edges of the screen) from the length.
+        number_aliens_x =   available_space_x // (2 * alien_width) # Basically one alien is technically two (because its space counts as one) so we check how many 2 we can draw to screen.
+
+        # Getting the number of rows of aliens that fits on the screen.
+        ship_height = self.ship.rect.height
+        available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
+        number_rows = available_space_y // (2 * alien_height)
+
+        # Creating full fleet of aliens:
+
+        for row_number in range(number_rows):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
 
     def _check_events(self): # single leading underscores definte helper methods
         for event in pygame.event.get():  # getting a event invoked from pygame or the user.
@@ -62,6 +94,7 @@ class AlienInvasion:
         self.ship.blitme()  # drawing ship to screen.
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() # goes through each bullet in the group of sprites and draws them to the screen.
+        self.aliens.draw(self.screen) # drawing all aliens in the sprite group to the screen surface.
         pygame.display.flip()  # makes most recent drawn screen visible.
 
     def run_game(self):
