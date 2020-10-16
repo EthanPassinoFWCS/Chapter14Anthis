@@ -6,6 +6,7 @@ class Alien(Sprite):
     def __init__(self, ai_game):
         super().__init__() # creating instance of parent class
         self.screen = ai_game.screen
+        self.settings = ai_game.settings
 
         # Loading alien image and setting rect attribute for it.
         self.image = pygame.image.load("bin/alien.bmp")
@@ -18,4 +19,11 @@ class Alien(Sprite):
         # Storing exact horizontal position of alien.
         self.x = float(self.rect.x)
 
+    def check_edges(self):
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right or self.rect.left <= 0:
+            return True
 
+    def update(self):
+        self.x += (self.settings.alien_speed * self.settings.fleet_direction)
+        self.rect.x = self.x

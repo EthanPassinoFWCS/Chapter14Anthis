@@ -89,6 +89,17 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
         # goes through a copy of the sprite list, and removes any bullet below and at y cord 0 from the sprite list.
 
+        # Check for any bullets that hit aliens. If so we get rid of bullet and alien.
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
+
+        if not self.aliens:
+            # Destroy bullets and create a new fleet if no aliens.
+            self.bullets.empty() # deletes all bullets.
+            self._create_fleet() # creates new fleet.
+
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)  # fills the background with the rgb color.
         self.ship.blitme()  # drawing ship to screen.
@@ -97,11 +108,31 @@ class AlienInvasion:
         self.aliens.draw(self.screen) # drawing all aliens in the sprite group to the screen surface.
         pygame.display.flip()  # makes most recent drawn screen visible.
 
+    def _update_aliens(self):
+        self._check_fleet_edges()
+        self.aliens.update()
+
+        # Look for alien-ship collisions
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship hit")
+
+    def _check_fleet_edges(self):
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
     def run_game(self):
         while True:  # always running
             self._check_events() # runs the check events method... which checks events by the user.
             self.ship.update() # updating ship
             self._update_bullets() # updating bullets
+            self._update_aliens() # updating aliens
             self._update_screen() # runs the updating screen, which draws objects to the screen and backgrounds and such.
 
 
