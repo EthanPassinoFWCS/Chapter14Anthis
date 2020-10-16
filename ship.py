@@ -36,6 +36,11 @@ class Ship:
             self.x -= self.settings.ship_speed # if it is true we move left by changing the x by -1
         self.rect.x = self.x # updating the x position when we move or update.
 
+    def center_ship(self):
+        """Center the ship on the screen"""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
+
     def blitme(self):
         self.screen.blit(self.image, self.rect)
         # this method is used to draw a image to the screen.
