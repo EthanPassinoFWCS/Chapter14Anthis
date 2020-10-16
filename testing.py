@@ -138,19 +138,23 @@ class AlienInvasion:
     def _ship_hit(self):
         """Stuff done when the ship gets hit"""
 
-        # Decrease number of ships left.
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # Decrease number of ships left.
+            self.stats.ships_left -= 1
 
-        # Delete remaining aliens and bullets.
-        self.aliens.empty()
-        self.bullets.empty()
+            # Delete remaining aliens and bullets.
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Create new fleet and center the ship
-        self._create_fleet()
-        self.ship.center_ship()
+            # Create new fleet and center the ship
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # Pause
-        sleep(0.5)
+            # Pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
+
 
     def _check_aliens_bottom(self):
         """Check if any aliens have reached the bottom of the screen"""
@@ -164,10 +168,12 @@ class AlienInvasion:
     def run_game(self):
         while True:  # always running
             self._check_events() # runs the check events method... which checks events by the user.
-            self.ship.update() # updating ship
-            self._update_bullets() # updating bullets
-            self._update_aliens() # updating aliens
-            self._update_screen() # runs the updating screen, which draws objects to the screen and backgrounds and such.
+
+            if self.stats.game_active: # basically stuff in this if statement only runs if the game is active.
+                self.ship.update() # updating ship
+                self._update_bullets() # updating bullets
+                self._update_aliens() # updating aliens
+                self._update_screen() # runs the updating screen, which draws objects to the screen and backgrounds and such.
 
 
 if __name__ == '__main__':
