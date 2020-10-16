@@ -99,6 +99,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
 
             # Getting rid of remaining aliens and bullets
             self.aliens.empty()
@@ -140,6 +141,10 @@ class AlienInvasion:
             self.bullets.empty() # deletes all bullets.
             self._create_fleet() # creates new fleet.
             self.settings.increase_speed()
+
+            # Increase level
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)  # fills the background with the rgb color.
