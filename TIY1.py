@@ -84,6 +84,10 @@ class AlienInvasion:
             sys.exit() # exits the program
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p:
+            mouse_pos = pygame.mouse.get_pos()
+            self._check_play_button(mouse_pos, key_press=True)
+            print("test")
 
     def _check_keyup_events(self, event): # keyup event helper.
         if event.key == pygame.K_RIGHT: # checks if the key that was released is right arrow.
@@ -91,9 +95,9 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT: # checks if the key that was released is left arrow.
             self.ship.moving_left = False # if it is we stop moving left.
 
-    def _check_play_button(self, mouse_pos):
+    def _check_play_button(self, mouse_pos, key_press=False):
         """Start new game when player clicks on play."""
-        if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+        if (self.play_button.rect.collidepoint(mouse_pos) or key_press) and not self.stats.game_active:
             # Reset dynamic settings
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
