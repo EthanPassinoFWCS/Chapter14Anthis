@@ -85,6 +85,10 @@ class RectangleGame:
             # Create a new fleet and center the ship
             self.ship.center_ship()
 
+            # Make sure that the rectangle is repositioned
+            for rectangle in self.rectangles.sprites():
+                rectangle.replace_rectangle()
+
             # Make sure bullets_left is 3
             self.stats.bullets_left = 3
 
@@ -105,6 +109,7 @@ class RectangleGame:
                 if self.stats.bullets_left == 0:
                     self.stats.game_active = False
         # goes through a copy of the sprite list, and removes any bullet below and at y cord 0 from the sprite list.
+        self._check_bullet_rectangle_collisions()
 
     def _check_bullet_rectangle_collisions(self):
         collisions = pygame.sprite.groupcollide(self.bullets, self.rectangles, True, False)
@@ -115,11 +120,27 @@ class RectangleGame:
             self.sb.check_high_score()
             self.settings.increase_speed()
 
+    def _update_rectangle(self):
+        self._check_rectangle_edges()
+        self.rectangles.update()
+
+    def _check_rectangle_edges(self):
+        for rectangle in self.rectangles.sprites():
+            if rectangle.check_edges():
+                self._change_rectangle_direction()
+                break
+
+    def _change_rectangle_direction(self):
+        self.settings.rectangle_direction *= -1
+
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)  # fills the background with the rgb color.
         self.ship.blitme()  # drawing ship to screen.
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() # goes through each bullet in the group of sprites and draws them to the screen.
+
+        for rectangle in self.rectangles.sprites():
+            rectangle.draw_rectangle()
 
         # Draw the score information
         self.sb.show_score()
@@ -137,6 +158,7 @@ class RectangleGame:
             if self.stats.game_active:
                 self.ship.update() # updating ship
                 self._update_bullets() # updating bullets
+                self._update_rectangle()
 
             self._update_screen() # runs the updating screen, which draws objects to the screen and backgrounds and such.
 

@@ -20,8 +20,9 @@ class Settings:
 
         # Rectangle Settings
         self.rectangle_speed = 0.5
-        self.rectangle_width = 20
-        self.rectangle_height = 15
+        self.rectangle_width = 15
+        self.rectangle_height = 75
+        self.rectangle_color = (60, 60, 60)
 
         # How quickly the game speeds up and how quickly the rectangles point number increases.
         self.speedup_scale = 1.1
@@ -36,10 +37,10 @@ class Settings:
 
         # Scoring
         self.rectangle_points = 10
+        self.rectangle_direction = 1
+
 
     def increase_speed(self):
         """Increase difficulty by increasing speed."""
-        self.ship_speed *= self.speedup_scale
-        self.bullet_speed *= self.speedup_scale
         self.rectangle_speed *= self.speedup_scale
         self.rectangle_points = int(self.rectangle_points * self.score_scale)
