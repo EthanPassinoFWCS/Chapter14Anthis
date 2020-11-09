@@ -1,13 +1,13 @@
 import sys
 import pygame
-from settings import Settings
-from ship import Ship
-from bullet import Bullet
-from alien import Alien
+from TIY1settings import Settings
+from TIY1ship import Ship
+from TIY1bullet import Bullet
+from TIY1alien import Alien
 from time import sleep
-from game_stats import GameStats
-from button import Button
-from scoreboard import Scoreboard
+from TIY1game_stats import GameStats
+from TIY1button import Button
+from TIY1scoreboard import Scoreboard
 
 # sys used to exit game, pygame for functionality, settings is for the settings of the game.
 

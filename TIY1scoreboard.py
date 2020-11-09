@@ -1,6 +1,6 @@
 import pygame.ftfont
 from pygame.sprite import Group
-from ship import Ship
+from TIY1ship import Ship
 
 class Scoreboard:
 
