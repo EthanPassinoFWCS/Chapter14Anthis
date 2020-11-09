@@ -80,9 +80,9 @@ class AlienInvasion:
 
     def _check_keydown_events(self, event): # keydown event helper.
         if event.key == pygame.K_RIGHT: # checks if event key is right arrow
-            self.ship.moving_right = True # basically sets a flag to let the ship know it must move right.
+            self.ship.moving_down = True # basically sets a flag to let the ship know it must move right.
         elif event.key == pygame.K_LEFT: # check if event key is left arrow
-            self.ship.moving_left = True # basically sets a flag to let the ship know it must move left.
+            self.ship.moving_up = True # basically sets a flag to let the ship know it must move left.
         elif event.key == pygame.K_q: # checks if key pressed was q
             sys.exit() # exits the program
         elif event.key == pygame.K_SPACE:
@@ -93,9 +93,9 @@ class AlienInvasion:
 
     def _check_keyup_events(self, event): # keyup event helper.
         if event.key == pygame.K_RIGHT: # checks if the key that was released is right arrow.
-            self.ship.moving_right = False # if it is we stop moving right.
+            self.ship.moving_down = False # if it is we stop moving right.
         elif event.key == pygame.K_LEFT: # checks if the key that was released is left arrow.
-            self.ship.moving_left = False # if it is we stop moving left.
+            self.ship.moving_up = False # if it is we stop moving left.
 
     def _check_play_button(self, mouse_pos, key_press=False):
         """Start new game when player clicks on play."""
@@ -188,7 +188,7 @@ class AlienInvasion:
 
     def _change_fleet_direction(self):
         for alien in self.aliens.sprites():
-            alien.rect.x += self.settings.fleet_drop_speed
+            alien.rect.x -= self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
     def _ship_hit(self):
