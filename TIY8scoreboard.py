@@ -48,8 +48,8 @@ class Scoreboard:
 
         # Position the level below the score
         self.level_rect = self.level_image.get_rect()
-        self.level_rect.left = self.score_rect.left
-        self.level_rect.top = self.score_rect.bottom + 10
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.bottom = self.score_rect.bottom + 10
 
     def prep_ships(self):
         self.ships = Group()
