@@ -66,6 +66,7 @@ class AlienInvasion:
     def _check_events(self): # single leading underscores definte helper methods
         for event in pygame.event.get():  # getting a event invoked from pygame or the user.
             if event.type == pygame.QUIT:  # checking if that event is quit.
+                self.stats.check_high_score()
                 sys.exit()  #
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
@@ -81,6 +82,7 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT: # check if event key is left arrow
             self.ship.moving_left = True # basically sets a flag to let the ship know it must move left.
         elif event.key == pygame.K_q: # checks if key pressed was q
+            self.stats.check_high_score()
             sys.exit() # exits the program
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
