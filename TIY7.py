@@ -118,6 +118,8 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed: # checks bullets on screen and if there are less than the number of bullets allowed in settings, they fire a bullet.
             new_bullet = Bullet(self) # creating bullet object.
             self.bullets.add(new_bullet) # adding this new bullet to the group.
+            pygame.mixer.music.load("bin/laser1.wav")
+            pygame.mixer.music.play(0)
 
     def _update_bullets(self): # updating bullets helper method
         self.bullets.update() # updating bullets
@@ -135,6 +137,8 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
+                pygame.mixer.music.load("bin/Explosion_02.wav")
+                pygame.mixer.music.play(0)
             self.sb.prep_score()
             self.sb.check_high_score()
 
