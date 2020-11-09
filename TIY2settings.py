@@ -10,7 +10,6 @@ class Settings:
         # Ship settings
         self.ship_speed = 1.5
 
-
         # Bullet Settings
         self.bullet_speed = 1.5  # 1 speed
         self.bullet_width = 15  # 15 pixels wide
@@ -21,3 +20,26 @@ class Settings:
 
         # Rectangle Settings
         self.rectangle_speed = 0.5
+        self.rectangle_width = 20
+        self.rectangle_height = 15
+
+        # How quickly the game speeds up and how quickly the rectangles point number increases.
+        self.speedup_scale = 1.1
+        self.score_scale = 1.5
+        self.initialize_dynamic_settings()
+
+    def initialize_dynamic_settings(self):
+        """Init settings that change throughout the game"""
+        self.ship_speed = 1.5
+        self.bullet_speed = 3.0
+        self.rectangle_speed = 0.5
+
+        # Scoring
+        self.rectangle_points = 10
+
+    def increase_speed(self):
+        """Increase difficulty by increasing speed."""
+        self.ship_speed *= self.speedup_scale
+        self.bullet_speed *= self.speedup_scale
+        self.rectangle_speed *= self.speedup_scale
+        self.rectangle_points = int(self.rectangle_points * self.score_scale)

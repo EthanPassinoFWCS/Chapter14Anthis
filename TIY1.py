@@ -87,7 +87,6 @@ class AlienInvasion:
         elif event.key == pygame.K_p:
             mouse_pos = pygame.mouse.get_pos()
             self._check_play_button(mouse_pos, key_press=True)
-            print("test")
 
     def _check_keyup_events(self, event): # keyup event helper.
         if event.key == pygame.K_RIGHT: # checks if the key that was released is right arrow.
