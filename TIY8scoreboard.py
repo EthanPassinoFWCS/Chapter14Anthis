@@ -29,7 +29,7 @@ class Scoreboard:
         # Display the score at the top right of the screen.
         self.score_rect = self.score_image.get_rect()
         self.score_rect.right = self.screen_rect.right - 20
-        self.score_rect.top = 20
+        self.score_rect.bottom = self.screen_rect.bottom - 20
 
     def prep_high_score(self):
         high_score = round(self.stats.high_score, -1)
@@ -48,15 +48,15 @@ class Scoreboard:
 
         # Position the level below the score
         self.level_rect = self.level_image.get_rect()
-        self.level_rect.right = self.score_rect.right
-        self.level_rect.bottom = self.score_rect.bottom + 10
+        self.level_rect.right = self.score_rect.right - 40
+        self.level_rect.bottom = self.score_rect.bottom
 
     def prep_ships(self):
         self.ships = Group()
         for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_game)
-            ship.rect.x = 10 + ship_number * ship.rect.width
-            ship.rect.y = 10
+            ship.rect.x = ship.screen_rect.width - ship.rect.width - 10
+            ship.rect.y = 10 + ship_number * ship.rect.height
             self.ships.add(ship)
 
 
